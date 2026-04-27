@@ -1,27 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --metallic-light: #C7D0D8;
+  --metallic-mid: #8FA3B5;
+  --metallic-dark: #4A5F73;
+  --steel: #2E3F4F;
+  --brand-black: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-metallic-light text-steel font-semibold px-6 py-3 rounded-sm transition-all duration-300 hover:bg-white hover:shadow-soft;
+  }
+  
+  .btn-secondary {
+    @apply border border-metallic-mid text-metallic-light font-medium px-6 py-3 rounded-sm transition-all duration-300 hover:bg-metallic-mid/10;
+  }
+  
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
+  }
+  
+  .card-metallic {
+    @apply bg-steel/50 border border-metallic-dark/30 rounded-md p-6 transition-all duration-300 hover:border-metallic-mid/50;
   }
 }
