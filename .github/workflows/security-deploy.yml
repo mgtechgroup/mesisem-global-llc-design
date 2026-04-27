@@ -1,0 +1,78 @@
+name: Security Audit & Deploy
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install gitleaks
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/gitleaks/gitleaks/master/scripts/install.sh | bash
+
+      - name: Run gitleaks
+        run: gitleaks detect --source . --no-git --redact --exit-code --format json --report-format sarif --report-path gitleaks-results.sarif || true
+
+      - name: Upload gitleaks results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif-file: gitleaks-results.sarif
+          category: gitleaks
+
+      - name: Install semgrep
+        run: pip install semgrep
+
+      - name: Run semgrep
+        run: semgrep --config=auto --json --output=semgrep-results.json . || true
+
+      - name: Upload semgrep results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif-file: semgrep-results.json
+          category: semgrep
+
+  deploy:
+    needs: security-audit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: mesisem-global-llc-design
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
