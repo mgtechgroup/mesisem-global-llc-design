@@ -47,9 +47,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://mesisemglobal.com/",
   },
-  verification: {
-    google: "google-site-verification-code",
-  },
 };
 
 export default function RootLayout({

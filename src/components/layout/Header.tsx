@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,8 +22,14 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-metallic-light to-metallic-dark flex items-center justify-center">
-              <span className="text-steel font-bold text-sm">MG</span>
+            <div className="relative w-10 h-10 overflow-hidden">
+              <Image
+                src="/assets/logo/mesisem-logo-final.png"
+                alt="Mesisem Global LLC"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
             <div className="hidden sm:block">
               <span className="text-metallic-light font-semibold text-lg tracking-tight group-hover:text-white transition-colors">

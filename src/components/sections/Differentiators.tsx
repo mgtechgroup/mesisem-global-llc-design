@@ -1,3 +1,6 @@
+import ScrollAnimate from "@/modules/core/components/ScrollAnimate";
+import GlassCard from "@/modules/core/components/GlassCard";
+
 const differentiators = [
   {
     title: "Global Compliance",
@@ -30,9 +33,12 @@ const differentiators = [
 
 export default function Differentiators() {
   return (
-    <section className="py-20 lg:py-28 bg-black">
-      <div className="max-w-7xl mx-auto section-padding">
-        <div className="text-center mb-16">
+    <section className="py-20 lg:py-28 bg-black relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-metallic-mid/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto section-padding relative z-10">
+        <div className="text-center mb-16 scroll-animate opacity-0 translate-y-[30px] animate-fade-in-up">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-metallic-light mb-4">
             What Sets Us Apart
           </h2>
@@ -43,23 +49,22 @@ export default function Differentiators() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {differentiators.map((item, index) => (
-            <div
-              key={index}
-              className="relative p-8 border border-metallic-dark/30 rounded-lg bg-steel/20 hover:bg-steel/40 transition-all duration-300"
-            >
-              <div className="absolute -top-4 left-8 px-4 py-1 bg-steel border border-metallic-dark/30 rounded text-metallic-light text-sm font-mono">
-                0{index + 1}
-              </div>
-              <div className="text-metallic-mid mb-4 mt-2">
-                {item.icon}
-              </div>
-              <h3 className="text-metallic-light font-semibold text-xl mb-3">
-                {item.title}
-              </h3>
-              <p className="text-metallic-mid text-sm leading-relaxed">
-                {item.description}
-              </p>
-            </div>
+            <ScrollAnimate key={index} delay={index * 0.15}>
+              <GlassCard className="relative p-8 h-full">
+                <div className="absolute -top-4 left-8 px-4 py-1 bg-steel border border-metallic-dark/30 rounded text-metallic-light text-sm font-mono backdrop-blur-xl">
+                  0{index + 1}
+                </div>
+                <div className="text-metallic-mid mb-4 mt-2">
+                  {item.icon}
+                </div>
+                <h3 className="text-metallic-light font-semibold text-xl mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-metallic-mid text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </GlassCard>
+            </ScrollAnimate>
           ))}
         </div>
       </div>

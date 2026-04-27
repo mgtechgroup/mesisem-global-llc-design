@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ScrollAnimate from "@/modules/core/components/ScrollAnimate";
+import GlassCard from "@/modules/core/components/GlassCard";
 
 const services = [
   {
@@ -76,9 +78,12 @@ const services = [
 
 export default function ServicesGrid() {
   return (
-    <section className="py-20 lg:py-28 bg-steel/30">
-      <div className="max-w-7xl mx-auto section-padding">
-        <div className="text-center mb-16">
+    <section className="py-20 lg:py-28 bg-steel/30 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-metallic-light/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto section-padding relative z-10">
+        <div className="text-center mb-16 scroll-animate opacity-0 translate-y-[30px] animate-fade-in-up">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-metallic-light mb-4">
             Service Verticals
           </h2>
@@ -89,24 +94,24 @@ export default function ServicesGrid() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <Link
-              key={index}
-              href={service.href}
-              className="card-metallic group hover:bg-steel/70 transition-all duration-300 block"
-            >
-              <div className="text-metallic-mid group-hover:text-metallic-light transition-colors mb-4">
-                {service.icon}
-              </div>
-              <h3 className="text-metallic-light font-semibold text-lg mb-2">
-                {service.title}
-              </h3>
-              <p className="text-metallic-mid text-sm leading-relaxed mb-4">
-                {service.description}
-              </p>
-              <span className="text-metallic-dark group-hover:text-metallic-mid text-sm font-medium transition-colors">
-                Learn more →
-              </span>
-            </Link>
+            <ScrollAnimate key={index} delay={index * 0.08}>
+              <Link href={service.href} className="block h-full">
+                <GlassCard className="h-full p-6 group">
+                  <div className="text-metallic-mid group-hover:text-metallic-light transition-colors mb-4">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-metallic-light font-semibold text-lg mb-2 group-hover:text-white transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-metallic-mid text-sm leading-relaxed mb-4">
+                    {service.description}
+                  </p>
+                  <span className="text-metallic-dark group-hover:text-metallic-mid transition-colors text-sm font-medium">
+                    Learn more →
+                  </span>
+                </GlassCard>
+              </Link>
+            </ScrollAnimate>
           ))}
         </div>
       </div>

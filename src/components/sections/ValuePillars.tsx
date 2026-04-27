@@ -1,3 +1,6 @@
+import ScrollAnimate from "@/modules/core/components/ScrollAnimate";
+import GlassCard from "@/modules/core/components/GlassCard";
+
 const pillars = [
   {
     title: "Market Entry Execution",
@@ -31,7 +34,7 @@ const pillars = [
     description: "Startup incubation, equity partnerships, and capital-efficient scaling with 30% default equity model.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
   },
@@ -39,9 +42,12 @@ const pillars = [
 
 export default function ValuePillars() {
   return (
-    <section className="py-20 lg:py-28 bg-black">
-      <div className="max-w-7xl mx-auto section-padding">
-        <div className="text-center mb-16">
+    <section className="py-20 lg:py-28 bg-black relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-metallic-dark/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto section-padding relative z-10">
+        <div className="text-center mb-16 scroll-animate opacity-0 translate-y-[30px] animate-fade-in-up">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-metallic-light mb-4">
             Core Value Pillars
           </h2>
@@ -52,20 +58,19 @@ export default function ValuePillars() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {pillars.map((pillar, index) => (
-            <div
-              key={index}
-              className="card-metallic group hover:bg-steel/70 transition-all duration-300"
-            >
-              <div className="text-metallic-mid group-hover:text-metallic-light transition-colors mb-4">
-                {pillar.icon}
-              </div>
-              <h3 className="text-metallic-light font-semibold text-lg mb-3">
-                {pillar.title}
-              </h3>
-              <p className="text-metallic-mid text-sm leading-relaxed">
-                {pillar.description}
-              </p>
-            </div>
+            <ScrollAnimate key={index} delay={index * 0.1}>
+              <GlassCard className="h-full p-8">
+                <div className="text-metallic-mid group-hover:text-metallic-light transition-colors mb-4">
+                  {pillar.icon}
+                </div>
+                <h3 className="text-metallic-light font-semibold text-lg mb-3">
+                  {pillar.title}
+                </h3>
+                <p className="text-metallic-mid text-sm leading-relaxed">
+                  {pillar.description}
+                </p>
+              </GlassCard>
+            </ScrollAnimate>
           ))}
         </div>
       </div>
